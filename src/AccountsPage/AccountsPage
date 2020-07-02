@@ -1,0 +1,103 @@
+import React, { useEffect, useState } from "react";
+import { makeStyles, createStyles } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import { getAccounts } from "../API/API";
+import { Account } from "../types";
+import AccountPage from "./Account";
+import LinearProgress from "@material-ui/core/LinearProgress";
+import Alert from "@material-ui/lab/Alert";
+import NavigationBar from "../NavigationBar/NavigationBar";
+import Table from "@material-ui/core/Table";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+
+
+const AccountsPage = () => {
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [totalBalance, setTotalBalance] = useState(0);
+  const [areAccountsLoaded, setAreAccountsLoaded] = useState(false);
+  const [accountsLoadingError, setAccountsLoadingError] = useState("");
+
+  useEffect(() => {
+    getAccounts()
+      .then(result => {
+        setAccounts(result.accounts);
+        setTotalBalance(getTotalBalance(result.accounts));
+      })
+      .catch(error => setAccountsLoadingError(error.message))
+      .then(() => setAreAccountsLoaded(true));
+  }, []);
+
+  const classes = useStyles();
+
+  function getTotalBalance(accounts: Account[]) {
+    return accounts.map(account => account.balance).reduce((a, b) => a + b, 0);
+  }
+
+  if (!areAccountsLoaded)
+    return (
+      <div>
+        <LinearProgress />
+      </div>
+    );
+  else {
+    if (accountsLoadingError)
+      return (
+        <Alert severity="error">
+          This is an error alert — {accountsLoadingError}!
+        </Alert>
+      );
+  }
+
+  return (
+    <TableContainer className={classes.root}>
+      <NavigationBar></NavigationBar>
+      <Table className={classes.grid} key={`balance`}>
+        <TableHead>
+          <TableRow>
+            <TableCell align="left" className={classes.head}>
+              Total Balance: {totalBalance}
+            </TableCell>
+          </TableRow>
+        </TableHead>
+      </Table>
+
+      {accounts.map(account => (
+        <Grid
+          container
+          className={classes.grid}
+          spacing={2}
+          key={`${account.accountId}`}
+        >
+          <AccountPage account={account}></AccountPage>
+        </Grid>
+      ))}
+    </TableContainer>
+  );
+};
+
+export default AccountsPage;
+
+const useStyles = makeStyles(() =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+      overflow: "hidden",
+      display: "flex",
+      flexWrap: "wrap"
+    },
+    grid: {
+      marginLeft: "50px",
+      marginRight: "50px",
+      background: "grey.100"
+    },
+    head: {
+      marginTop: "10px",
+      fontSize: "10pt",
+      fontWeight: "bold",
+      display: "block"
+    }
+  })
+);

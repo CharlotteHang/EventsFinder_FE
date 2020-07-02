@@ -1,0 +1,69 @@
+import React, { FunctionComponent } from "react";
+import { makeStyles, createStyles, Theme } from "@material-ui/core/styles";
+import Grid from "@material-ui/core/Grid";
+import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
+import { AccountPageProp } from "../types";
+
+const AccountPage: FunctionComponent<AccountPageProp> = ({ account }) => {
+  const classes = useStyles();
+
+  return (
+    <div className={classes.root}>
+      <Paper className={classes.paper}>
+        <Grid item xs={12} sm container>
+          <Grid item xs container direction="column" spacing={2}>
+            <Grid item xs>
+              <Typography gutterBottom variant="subtitle1">
+                {account.accountName}
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                &nbsp;&nbsp;
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                Institution Name : {account.institutionName}
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                Account Name : {account.accountName}
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                Transit Number : {account.transitNumber}
+              </Typography>
+              <Typography variant="body2" gutterBottom>
+                Account Number : {account.accountNumber}
+              </Typography>
+              <Typography variant="body2" color="textSecondary">
+                Account ID: {account.accountId}
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid item>
+            <Typography variant="subtitle2" color="primary">
+              Balance : {account.balance}
+            </Typography>
+            <Typography variant="subtitle2" color="primary">
+              Updated : {account.balanceUpdated}
+            </Typography>
+          </Grid>
+        </Grid>
+      </Paper>
+    </div>
+  );
+};
+
+export default AccountPage;
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      flexGrow: 1,
+      padding: theme.spacing(2),
+      maxWidth: "100%"
+    },
+    paper: {
+      padding: theme.spacing(4),
+      margin: "auto",
+      backgroundColor: "#eceff1"
+    }
+  })
+);
