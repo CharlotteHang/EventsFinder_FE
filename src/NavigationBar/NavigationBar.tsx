@@ -6,12 +6,10 @@ import Typography from "@material-ui/core/Typography";
 import styled from "styled-components";
 import Link from "@material-ui/core/Link";
 import Button from "@material-ui/core/Button";
-import MoreIcon from "@material-ui/icons/MoreVert";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import IconButton from "@material-ui/core/IconButton";
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
-import { logout } from "../API/API";
 import { NavigationBarProp } from "../types";
 
 export const NavigationBar: FunctionComponent<NavigationBarProp> = ({
@@ -22,7 +20,7 @@ export const NavigationBar: FunctionComponent<NavigationBarProp> = ({
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
-  console.log(loggedIn)
+  console.log(loggedIn);
   const [
     mobileMoreAnchorEl,
     setMobileMoreAnchorEl
@@ -43,7 +41,7 @@ export const NavigationBar: FunctionComponent<NavigationBarProp> = ({
   // const handleLogout = () => {
   //   logout()
   //     .then(response => {
-  //       if (response.logout) 
+  //       if (response.logout)
   //       // handleMenuClose();
   //     })
   // };

@@ -4,33 +4,18 @@ import DistanceFilterForm from "./FilterForms/DistanceFilterForm";
 import FilterForm from "./FilterForms/FilterForm";
 import DateFilterForm from "./FilterForms/DateFilterForm";
 import styled from "styled-components";
-import FavoriteIcon from "@material-ui/icons/Favorite";
 import {
   Items,
-  Account,
-  TransactionInfo,
   Location,
   Recommendation,
   RecommendationResponse,
   Category
 } from "../types";
-import {
-  logout,
-  getTransactions,
-  getAccounts,
-  getCategories,
-  getLocation,
-  getEventsByLocation,
-  getRecommendations,
-  getFavouriteItems,
-  setFavouriteItems,
-  getLoginState
-} from "../API/API";
+import { logout, getLocation, getLoginState } from "../API/API";
 import Box from "@material-ui/core/Box";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Alert from "@material-ui/lab/Alert";
 import { NavigationBar } from "../NavigationBar/NavigationBar";
-import { MapsLocalActivity } from "material-ui/svg-icons";
 
 export const EventsPage = (
   method: any,
@@ -60,7 +45,6 @@ export const EventsPage = (
 
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [userName, setUserName] = React.useState("");
-  const [favoriteEventIds, setFavoriteEventIds] = React.useState<string[]>([]);
 
   useEffect(() => {
     if (!isFavoritePage) {
@@ -78,9 +62,9 @@ export const EventsPage = (
 
   useEffect(() => {
     getLoginState().then(response => {
-      console.log(response)
+      console.log(response);
       if (response.data.logined) {
-        console.log(response.data.logined)
+        console.log(response.data.logined);
         setIsLoggedIn(true);
         setUserName(response.data.firstName);
       } else {
@@ -96,7 +80,7 @@ export const EventsPage = (
         let loc = getLocationInfo(location);
         method(loc[0], loc[1], "")
           .then((result: RecommendationResponse) => {
-            console.log("get nearby and recommended items")
+            console.log("get nearby and recommended items");
             console.log(result);
             setEvents(result.data);
           })
@@ -257,11 +241,9 @@ export const EventsPage = (
   };
 
   const handleLogout = () => {
-        logout()
-      .then(response => {
-        if (response.statusCode == 200) 
-        setLogoutState();
-      })
+    logout().then(response => {
+      if (response.statusCode == 200) setLogoutState();
+    });
   };
 
   const clearDistance = () => (event: React.MouseEvent<unknown>) => {
@@ -285,7 +267,11 @@ export const EventsPage = (
   console.log(events);
   return (
     <Container>
-      <NavigationBar loggedIn={isLoggedIn} name={userName} handleLogout={handleLogout}></NavigationBar>
+      <NavigationBar
+        loggedIn={isLoggedIn}
+        name={userName}
+        handleLogout={handleLogout}
+      ></NavigationBar>
       <HeaderContainer>
         <Header>
           <span color="#FBAF41">Event</span> <br /> Recommendation
@@ -293,7 +279,10 @@ export const EventsPage = (
       </HeaderContainer>
       {/* isFavourite? */}
       {!isNearbyPage && !isLoggedIn ? (
-        <Alert severity="error">Please login to view {isFavoritePage? "your favorite": "the recommended"} events!</Alert>
+        <Alert severity="error">
+          Please login to view{" "}
+          {isFavoritePage ? "your favorite" : "the recommended"} events!
+        </Alert>
       ) : (
         <>
           <Box p={2} m={2}>

@@ -1,30 +1,16 @@
 import React, { FunctionComponent, useEffect, useCallback } from "react";
 import { makeStyles, Theme } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
 import Button from "@material-ui/core/Button";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
 import TableSortLabel from "@material-ui/core/TableSortLabel";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
-import Paper from "@material-ui/core/Paper";
 import { createStyles } from "@material-ui/core";
-import StarRoundedIcon from "@material-ui/icons/StarRounded";
 import styled from "styled-components";
 import { setFavouriteItems } from "../API/API";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core/styles";
-import Tooltip from '@material-ui/core/Tooltip';
+import Tooltip from "@material-ui/core/Tooltip";
 
-import {
-  Recommendation,
-  EventListProps,
-  Items,
-  Transaction,
-  Account
-} from "../types";
+import { Recommendation, EventListProps, Items } from "../types";
 
 //login logout
 
@@ -98,7 +84,7 @@ const EventsList: FunctionComponent<EventListProps> = ({
   };
 
   function sortDistance(sortingMethod: string, events: Recommendation[]) {
-    events.sort(function(t1, t2) {
+    events.sort(function (t1, t2) {
       if (t1.distance > t2.distance) {
         return sortingMethod === "asc" ? 1 : -1;
       }
@@ -118,7 +104,7 @@ const EventsList: FunctionComponent<EventListProps> = ({
   };
 
   function sortDate(sortingMethod: string, events: Recommendation[]) {
-    events.sort(function(t1, t2) {
+    events.sort(function (t1, t2) {
       if (t1.localDate > t2.localDate) {
         return sortingMethod === "asc" ? 1 : -1;
       }
@@ -150,7 +136,7 @@ const EventsList: FunctionComponent<EventListProps> = ({
       .then(response => {
         if (response.statusCode == 403) setLogoutState();
         if (response.statusCode == 200)
-        handleAddFavorite(item.itemId, !item.favorite);
+          handleAddFavorite(item.itemId, !item.favorite);
       })
       .catch(error => setFavouriteItemError(error));
   };
@@ -182,10 +168,14 @@ const EventsList: FunctionComponent<EventListProps> = ({
               <Image alt="item image" src={event.imageUrl} />
               <div>
                 <Link href={event.url}>{event.name}</Link>
-                <p>{event.categories.reduce((acc, category) => {
-      acc.push(category.categoryType);
-      return acc;
-    }, []).join(", ")}</p>
+                <p>
+                  {event.categories
+                    .reduce((acc, category) => {
+                      acc.push(category.categoryType);
+                      return acc;
+                    }, [])
+                    .join(", ")}
+                </p>
                 {/* <Ratings>
               <p>Rating</p>
               {Array(event.rating).map((e, i) => (
@@ -205,7 +195,10 @@ const EventsList: FunctionComponent<EventListProps> = ({
               </div>
             </EventDescription>
             <Favourite>
-              <Tooltip disableFocusListener title={!isLoggedIn&&"Please login"}>
+              <Tooltip
+                disableFocusListener
+                title={!isLoggedIn && "Please login"}
+              >
                 <Button
                   // variant="contained"
                   // color="secondary"
