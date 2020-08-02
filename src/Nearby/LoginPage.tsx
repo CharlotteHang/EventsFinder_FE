@@ -102,12 +102,12 @@ export function LoginPage(isLoginPage: boolean) {
   const handleLogin = () => {
     login(email, password)
       .then(response => {
-        console.log(response.data.logined)
+        console.log(response.data.logined);
         if (!response.data.logined) {
           setError("Incorrect email or password");
         } else {
           // Cookies.set("token", response.token)
-          console.log("redirect")
+          console.log("redirect");
           history.push("/NearbyEvents");
         }
       })
@@ -119,7 +119,7 @@ export function LoginPage(isLoginPage: boolean) {
       setError("Password should have at least 8 characters");
       return;
     }
-    var re = /\S+@\S+\.\S+/;
+    let re = /\S+@\S+\.\S+/;
     if (re.test(email)) {
       setError("The email is not valid");
       return;
@@ -147,120 +147,124 @@ export function LoginPage(isLoginPage: boolean) {
 
   useEffect(() => {
     getLoginState().then(response => {
-      if(response.data.logined) {
+      if (response.data.logined) {
         setIsLoggedIn(true);
         setName(response.data.firstName);
       } else {
         setIsLoggedIn(false);
-        setName('');
-      }  
+        setName("");
+      }
     });
   }, []);
 
   return (
-    <> 
-    <NavigationBar loggedIn={isLoggedIn} name={name} handleLogout={null}></NavigationBar>
-    {
-      isLoggedIn ? (<Alert severity="error">Hi {name}, you have already logged in</Alert>) : (
+    <>
+      <NavigationBar
+        loggedIn={isLoggedIn}
+        name={name}
+        handleLogout={null}
+      ></NavigationBar>
+      {isLoggedIn ? (
+        <Alert severity="error">Hi {name}, you have already logged in</Alert>
+      ) : (
         <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            {isLoginPage ? "Log In" : "Sign Up"}
-          </Typography>
-          <form className={classes.form} noValidate>
-            {/* <FormInputField id="email" label="Email Address" onchange={handleEmailChange}/> */}
-            {!isLoginPage ? (
-              <>
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  name="firstName"
-                  autoComplete="firstName"
-                  autoFocus
-                  onChange={handleFirstNameChange}
-                />
-                <TextField
-                  variant="outlined"
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="lastName"
-                  autoFocus
-                  onChange={handleLastNameChange}
-                />
-              </>
-            ) : null}
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-              onChange={handleEmailChange}
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="password"
-              label="Password"
-              name="password"
-              type="password"
-              autoComplete="current-password"
-              onChange={handlePasswordChange}
-            />
-            <Error> {error}</Error>
-            <Button
-              // type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-              onClick={handleSubmit}
-            >
+          <CssBaseline />
+          <div className={classes.paper}>
+            <Avatar className={classes.avatar}>
+              <LockOutlinedIcon />
+            </Avatar>
+            <Typography component="h1" variant="h5">
               {isLoginPage ? "Log In" : "Sign Up"}
-            </Button>
-            <Grid container>
-              {/* <Grid item xs>
+            </Typography>
+            <form className={classes.form} noValidate>
+              {/* <FormInputField id="email" label="Email Address" onchange={handleEmailChange}/> */}
+              {!isLoginPage ? (
+                <>
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="firstName"
+                    label="First Name"
+                    name="firstName"
+                    autoComplete="firstName"
+                    autoFocus
+                    onChange={handleFirstNameChange}
+                  />
+                  <TextField
+                    variant="outlined"
+                    margin="normal"
+                    required
+                    fullWidth
+                    id="lastName"
+                    label="Last Name"
+                    name="lastName"
+                    autoComplete="lastName"
+                    autoFocus
+                    onChange={handleLastNameChange}
+                  />
+                </>
+              ) : null}
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                autoFocus
+                onChange={handleEmailChange}
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="password"
+                label="Password"
+                name="password"
+                type="password"
+                autoComplete="current-password"
+                onChange={handlePasswordChange}
+              />
+              <Error> {error}</Error>
+              <Button
+                // type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className={classes.submit}
+                onClick={handleSubmit}
+              >
+                {isLoginPage ? "Log In" : "Sign Up"}
+              </Button>
+              <Grid container>
+                {/* <Grid item xs>
               <Link href="#" variant="body2">
                 Forgot password?
               </Link>
             </Grid> */}
-              <Grid item>
-                <Link href={isLoginPage ? "/Signup" : "/Login"} variant="body2">
-                  {isLoginPage
-                    ? "Don't have an account? Sign Up"
-                    : "Have an account? Sign In"}
-                </Link>
+                <Grid item>
+                  <Link
+                    href={isLoginPage ? "/Signup" : "/Login"}
+                    variant="body2"
+                  >
+                    {isLoginPage
+                      ? "Don't have an account? Sign Up"
+                      : "Have an account? Sign In"}
+                  </Link>
+                </Grid>
               </Grid>
-            </Grid>
-          </form>
-        </div>
-        <Box mt={8}>
-          <Copyright />
-        </Box>
-      </Container>
-      )
-    }
-    
-      
-      
+            </form>
+          </div>
+          <Box mt={8}>
+            <Copyright />
+          </Box>
+        </Container>
+      )}
     </>
   );
 }
