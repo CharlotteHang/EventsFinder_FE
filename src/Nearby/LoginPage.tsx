@@ -115,7 +115,7 @@ export function LoginPage(isLoginPage: boolean) {
       return;
     }
     let re = /\S+@\S+\.\S+/;
-    if (re.test(email)) {
+    if (!re.test(email)) {
       setError("The email is not valid");
       return;
     }
